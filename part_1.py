@@ -12,7 +12,6 @@ def upload_file(file_name, bucket, text):
     if len(list(my_bucket.objects.filter(Prefix=file_path))) == 0:
         s3.Object(bucket, file_path).put(Body=text)
 
-
 def main():
     headers = {'Content-type': 'application/json', 'From': 'joe.levi.email@gmail.com', 'Connection': 'keep-alive',
                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -34,7 +33,6 @@ def main():
         if re.match(p, str(file)) :
             file_name = os.path.split(file['href'])[-1]
             file_url = url+file_name
-            # print(file_url)
             x = requests.get(file_url, headers=headers).text
             upload_file(file_name, bucket, x)
 
