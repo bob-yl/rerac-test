@@ -14,7 +14,7 @@ resource "aws_lambda_function" "part1_lambda" {
   role          = aws_iam_role.lambda_role.arn
   runtime       = "python3.9"
   handler       = "lambda_function.lambda_handler"
-  timeout       = 10
+  timeout       = 900
   layers        = ["${aws_lambda_layer_version.bs4.arn}", "${aws_lambda_layer_version.requests.arn}"]
 }
 resource "aws_cloudwatch_event_target" "part1_trigger_event" {
