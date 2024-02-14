@@ -9,4 +9,5 @@
 
 ## Part 4
 * TODO: Save files to S3
-* keep running into `cannot import name 'DEFAULT_CIPHERS' from 'urllib3.util.ssl_'` error, can't solve it for now
+* keep running into `cannot import name 'DEFAULT_CIPHERS' from 'urllib3.util.ssl_'` error, I just solved it!!!!! (` pip install --target terraform/packages/requests/python/ requests "urllib3<2" --upgrade`)
+*
