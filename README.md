@@ -9,3 +9,4 @@
 
 ## Part 4
 * TODO: Save files to S3
+* keep running into `cannot import name 'DEFAULT_CIPHERS' from 'urllib3.util.ssl_'` error, can't solve it for now

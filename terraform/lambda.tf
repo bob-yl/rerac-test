@@ -5,7 +5,7 @@ resource "aws_cloudwatch_event_rule" "every_day" {
 }
 data "archive_file" "rerac_part1_archive" {
   type        = "zip"
-  source_file = "bin/part_1/lambda_function.py"
+  source_dir = "bin/part_1"
   output_path = "part1.zip"
 }
 resource "aws_lambda_function" "part1_lambda" {
@@ -15,7 +15,7 @@ resource "aws_lambda_function" "part1_lambda" {
   runtime       = "python3.9"
   handler       = "lambda_function.lambda_handler"
   timeout       = 10
-  layers        = ["arn:aws:lambda:us-east-1:997597983503:layer:bs4:1"]
+  layers        = ["${aws_lambda_layer_version.bs4.arn}", "${aws_lambda_layer_version.requests.arn}"]
 }
 resource "aws_cloudwatch_event_target" "part1_trigger_event" {
   rule = aws_cloudwatch_event_rule.every_day.name
