@@ -11,4 +11,3 @@ resource "aws_lambda_layer_version" "requests" {
 
   compatible_runtimes = ["python3.9"]
 }
-
