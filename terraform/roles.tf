@@ -52,14 +52,16 @@ resource "aws_iam_policy" "glue_access_policy" {
   policy = "${data.aws_iam_policy_document.glue_access_doc.json}"
 }
 
-## Glue access
+## SQS access
 
 data "aws_iam_policy_document" "sqs_access_doc" {
   statement {
     sid = "1"
     actions = [
       "sqs:SendMessage",
-      "sqs:ReceiveMessage"
+      "sqs:ReceiveMessage",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes"
     ]
     resources = [
       "${aws_sqs_queue.rerac_part3_queue.arn}",
@@ -72,7 +74,7 @@ resource "aws_iam_policy" "sqs_access_policy" {
   path        = "/"
   description = "Allow lambda access to sqs"
 
-  policy = "${data.aws_iam_policy_document.glue_access_doc.json}"
+  policy = "${data.aws_iam_policy_document.sqs_access_doc.json}"
 }
 
 ## Role
@@ -82,24 +84,7 @@ resource "aws_iam_role" "lambda_role" {
   assume_role_policy = "${data.aws_iam_policy_document.rerac-lambda-trust-policy.json}"
 }
 
-## Attache roles
-
-resource "aws_iam_role_policy_attachment" "s3_role_attachment" {
-  role       = aws_iam_role.lambda_role.name
-  policy_arn = aws_iam_policy.s3_access_policy.arn
-}
-
-resource "aws_iam_role_policy_attachment" "glue_role_attachment" {
-  role       = aws_iam_role.lambda_role.name
-  policy_arn = aws_iam_policy.glue_access_policy.arn
-}
-
-resource "aws_iam_role_policy_attachment" "sqs_role_attachment" {
-  role       = aws_iam_role.lambda_role.name
-  policy_arn = aws_iam_policy.sqs_access_policy.arn
-}
-
-# Glue Role
+# logging access Role
 
 data "aws_iam_policy_document" "logging_access_doc" {
   statement {
@@ -148,4 +133,21 @@ resource "aws_iam_role_policy_attachment" "s3_glue_role_attachment" {
 resource "aws_iam_role_policy_attachment" "logging_glue_role_attachment" {
   role       = aws_iam_role.glue_role.name
   policy_arn = aws_iam_policy.logging_access_role.arn
+}
+
+## Attache roles
+
+resource "aws_iam_role_policy_attachment" "s3_role_attachment" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.s3_access_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "glue_role_attachment" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.glue_access_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "sqs_role_attachment" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.sqs_access_policy.arn
 }
