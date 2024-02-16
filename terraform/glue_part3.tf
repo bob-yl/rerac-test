@@ -4,7 +4,7 @@ resource "aws_s3_object" "glue_script" {
   source = "bin/part_3/pyspark_script.py"
 }
 
-resource "aws_glue_job" "blogpost_job" {
+resource "aws_glue_job" "report_generation" {
   name              = "rerac-part3"
   role_arn          = aws_iam_role.glue_role.arn
   glue_version      = "3.0"
