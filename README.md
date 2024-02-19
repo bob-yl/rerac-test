@@ -11,8 +11,11 @@
 
 ## Part 4
 * Keep running into `cannot import name 'DEFAULT_CIPHERS' from 'urllib3.util.ssl_'` error. I just solved it!!!!! (` pip install --target terraform/packages/requests/python/ requests "urllib3<2" --upgrade`)
-* TODO: move to modules on terraform
 * Loading pySpark as a lambda function requires containers, so, I chose to run the 3rd part as Glue job for time saving purposes
 
 
-If I had more time, I would add some error handling in the lambda functions
+If I had more time, I would:
+1. Add some error handling in the lambda functions.
+2. Add retries and error handling
+3. Move some of the objects in TF to modules
+4. Look into a better way to identify new files for part 1
